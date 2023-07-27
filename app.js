@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 const app = express();
 
 dotenv.config();
-const API_KEY = process.env.OPENWEATHERMAP_API_KEY;
+const API_KEY = "e17cdab707ecc0ccd9598bc0b4b5a52e";
 
 app.set('view engine', 'ejs'); 
 app.use(express.urlencoded({ extended: true }));
