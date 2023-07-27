@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather App</title>
+</head>
+<body>
+  <h1>Weather App</h1>
+  <form id="weatherForm">
+    <label for="cityName">Enter City Name:</label>
+    <input type="text" id="cityName" name="cityName" required>
+    <button type="submit">Get Weather</button>
+  </form>
+  <div id="weatherData"></div>
+
+  
+  <script>
+    document.getElementById('weatherForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const cityName = document.getElementById('cityName').value;
+        const url = `http://localhost:4000/weather/${cityName}`;
+        
+
+        fetch(url)
+          .then((response) => {
+            if (!response.ok) {
+            throw new Error('Unable to get weather data.');
+          }
+          return response.json();
+          })
+          .then((weatherData) => {
+            displayWeatherData(weatherData);
+          })
+          .catch((error) => {
+          document.getElementById('weatherData').innerText = 'Error: ' + error.message;
+          });
+      });
+      
+      function displayWeatherData(weatherData) {
+        const weatherDisplay = document.getElementById('weatherData');
+        const temperature = weatherData.main.temp;
+        const description = weatherData.weather[0].description;
+        const humidity = weatherData.main.humidity;
+        const windSpeed = weatherData.wind.speed;
+  
+        weatherDisplay.innerHTML = `
+          <h2>Weather Information for ${weatherData.name}</h2>
+          <p>Temperature: ${temperature} °C</p>
+          <p>Description: ${description}</p>
+          <p>Humidity: ${humidity}%</p>
+          <p>Wind Speed: ${windSpeed} m/s</p>
+        `;
+      }
+  </script>
+</body>
+</html>
